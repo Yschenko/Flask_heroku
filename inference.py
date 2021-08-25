@@ -3,6 +3,7 @@ import pandas as pd
 import pickle
 from joblib import load
 from flask import Flask, request
+import os
 
 MODEL = load('churn_model.pkl')
 app = Flask(__name__)
@@ -21,7 +22,8 @@ def exp_number():
 
 
 def main():
-    app.run(host='127.0.0.1', port=4444)
+    port = int(os.environ.get('PORT'))
+    app.run(host='127.0.0.1', port=port)
 
 
 if __name__ == '__main__':
