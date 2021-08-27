@@ -8,21 +8,15 @@ import os
 MODEL = load('churn_model.pkl')
 app = Flask(__name__)
 
+
 @app.route('/predict_churn')
 def exp_number():
 
-    data = {'is_male': int(request.args.get('is_male')),\
-            'num_inters': int(request.args.get('num_inters')),\
-            'late_on_payment': int(request.args.get('late_on_payment')),\
-            'age': int(request.args.get('age')),
-            'years_in_contract': float(request.args.get('years_in_contract'))}
-
-    to_predict = pd.DataFrame(data, index=[0])
-    return str(int(MODEL.predict(to_predict)))
+    return str(int(MODEL.predict(pd.DataFrame(request.args, index=[0]))))
 
 
 def main():
-    port = int(os.environ.get('PORT'))
+    port = 4444 # int(os.environ.get('PORT'))
     app.run(host='0.0.0.0', port=port)
 
 
